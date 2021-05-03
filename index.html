@@ -1,44 +1,52 @@
 <html>
     <head>
         <title> video player </title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+        <script src="artyom.window.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            if (annyang) {
-                var commands = {
-                    'play (the video)': function() {
-                        $('#theVideo').get(0).play();
-                        console.log('play the video')
-                    },
-                    'stop (the video)': function() {
-                        $('#theVideo').get(0).pause();
-                        console.log('stop the video')
-                    }
-                    ,
-                    'what (is that)': function() {
-                        console.log('what is that')
-
-                    },
-                    'go back': function() {
-                        console.log('go back')
-
-                    },
-                    'continue': function() {
-                        $('#theVideo').get(0).play();
-                        console.log('continue')
-                    }
+            // If you are using VanillaJS
+            const artyom = new Artyom();
+            
+            var commandStart = {
+                indexes:["play","play the video", "continue", "go on"], // These spoken words will trigger the execution of the command
+                action:function(){ // Action to be executed when a index match with
+                    $('#theVideo').get(0).play();
+                    console.log('play the video')
                 }
+            };
+        
+            var commandStop = {
+                indexes:["stop","stop the video", "pause", "hold on"], // These spoken words will trigger the execution of the command
+                action:function(){ // Action to be executed when a index match with
+                    $('#theVideo').get(0).pause();
+                    console.log('stop the video')
+                }
+            };
+            
+            artyom.addCommands(commandStart)
+            artyom.addCommands(commandStop)
+            
+            function startContinuousArtyom(){
+                artyom.fatality();// use this to stop any of
 
-                // Add our commands to annyang
-                annyang.addCommands(commands);
-
-                // Start listening. You can call this here, or attach this call to an event, button, etc.
-                annyang.start();
+                setTimeout(function(){// if you use artyom.fatality , wait 250 ms to initialize again.
+                     artyom.initialize({
+                        lang:"en-GB",// A lot of languages are supported. Read the docs !
+                        continuous:true,// Artyom will listen forever
+                        listen:true, // Start recognizing
+                        debug:true, // Show everything in the console
+                        speed:1 // talk normally
+                    }).then(function(){
+                        console.log("Ready to work !");
+                    });
+                },250);
             }
+        
+            startContinuousArtyom()
         </script>
     </head>
     <body>
-        <video id="theVideo">
+        <video id="theVideo" muted>
             <source src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Elephants_Dream_%282006%29.webm" type="video/webm">
             <p>No such video or something</p>
         </video>
