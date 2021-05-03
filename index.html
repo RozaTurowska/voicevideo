@@ -7,20 +7,25 @@
             if (annyang) {
                 var commands = {
                     'play (the video)': function() {
-                        $('#theVideo').play();
+                        $('#theVideo').get(0).play();
+                        console.log('play the video')
                     },
                     'stop (the video)': function() {
-                        $('#theVideo').pause();
+                        $('#theVideo').get(0).pause();
+                        console.log('stop the video')
                     }
                     ,
                     'what (is that)': function() {
+                        console.log('what is that')
 
                     },
                     'go back': function() {
+                        console.log('go back')
 
                     },
                     'continue': function() {
-                        $('#theVideo').play();
+                        $('#theVideo').get(0).play();
+                        console.log('continue')
                     }
                 }
 
