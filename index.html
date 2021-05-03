@@ -22,9 +22,25 @@
                     console.log('stop the video')
                 }
             };
+        
+            var commandRepeat = {
+                indexes:["once again","repeat", "repeat that", "what", "what is that", "what did you say"], // These spoken words will trigger the execution of the command
+                action:function(){ // Action to be executed when a index match with
+                    $('#theVideo').get(0).pause();
+                    currentTime = $('#theVideo').get(0).currentTime
+                    if (currentTime > 10) {
+                        $('#theVideo').get(0).currentTime = currentTime - 10
+                    } else {
+                        $('#theVideo').get(0).currentTime = 0
+                    }
+                    $('#theVideo').get(0).play();
+                    console.log('repeat')
+                }
+            };
             
             artyom.addCommands(commandStart)
             artyom.addCommands(commandStop)
+            artyom.addCommands(commandRepeat)
             
             function startContinuousArtyom(){
                 artyom.fatality();// use this to stop any of
@@ -46,7 +62,7 @@
         </script>
     </head>
     <body>
-        <video id="theVideo" muted>
+        <video id="theVideo">
             <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
             <p>No such video or something</p>
         </video>
